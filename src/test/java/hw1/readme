@@ -1,0 +1,18 @@
+1.	Setup project that has been discussed in the class. Make sure you can run both tests (native and web) successfully.
+- setup done
+2.	For existing native mobile autotest try to use another locator (xpath, classname, ?). Define these locators using Appium Inspector. Are there any difference with id version?
+- Added xpath, id and className locators, difference in syntax and how framework processes locators
+3.	Modify existing tests to run on a real device. What should be changed?
+- "deviceName" should be changed to name of real device taken using "adb.exe devices" command
+4.	Connect a real device to Appium (describe required actions) and run tests. Are there any difference with run on emulator?
+All the same except for real device:
+- developer mode on the real device should be turned on
+- USB debugging should be turned on
+5.	What should be improved/changed in existing test code? Why, for what?
+- use .properties file to store hardcoded values
+- do not use Thread.sleep
+- add asserts to tests
+- separate test data from test logic
+- do not use absolute paths
+- add descriptions for classes methods and tests
+
