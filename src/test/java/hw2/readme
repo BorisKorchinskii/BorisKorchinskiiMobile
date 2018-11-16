@@ -1,0 +1,14 @@
+1. Rewrite (complete) Driver using “singleton” pattern. Are there any advantages?
+2. Suggest improvements for .properties reading. What are the purposes?
+- separation of web and native properties to let driver to know what properties should it to load depending on test environment
+
+3. Add checks of other fields and their titles (Contact Name, Contact phone) in “native” test
+- checks methods added in PageObjects class containing Android elements of the Native app
+
+4. Optional: Add keyboard presence check in “native” test.
+- added method typeName() to PageObjects class to fill the "Contact Name" field;
+
+5. Which checks would you place in the “web” test?
+- check if page header logo is visible
+- check if page contains sections
+- check if HTTP request to resource was fulfilled using responce status code

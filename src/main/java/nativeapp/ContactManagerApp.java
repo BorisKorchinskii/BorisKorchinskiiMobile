@@ -2,7 +2,6 @@ package nativeapp;
 
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import setup.DriverSetup;
 
@@ -12,20 +11,20 @@ import java.util.List;
 public class ContactManagerApp extends DriverSetup {
     private final String app_package_name = "com.example.android.contactmanager:id/";
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Add Contact']")
+    @AndroidFindBy(id = app_package_name + "addContactButton")
     private AndroidElement addContactButton;
 
     @AndroidFindBy(id = "android:id/title")
-    private AndroidElement accContactTitle;
+    private AndroidElement contactTitle;
 
     @AndroidFindBy(id = app_package_name + "contactNameEditText")
     private AndroidElement nameField;
 
-    @AndroidFindBy(id = "Contact Name")
-    private AndroidElement contactNameTitle;
-
     @AndroidFindBy(id = "Target Account")
     private AndroidElement targetAccountTitle;
+
+    @AndroidFindBy(id = "Contact Name")
+    private AndroidElement contactNameTitle;
 
     @AndroidFindBy(id = "Contact Phone")
     private AndroidElement contactFormTitle;
@@ -46,10 +45,10 @@ public class ContactManagerApp extends DriverSetup {
     private AndroidElement contactEmailField;
 
 
-    List<AndroidElement> actualTetlesNames = Arrays.asList(contactNameTitle, targetAccountTitle,
+    private List<AndroidElement> actualTitlesNames = Arrays.asList(contactNameTitle, targetAccountTitle,
             contactFormTitle, contactEmailForm);
 
-    List<String> expectedlTetlesNames = Arrays.asList("Target Account", "Contact Name",
+    private List<String> expectedTitlesNames = Arrays.asList("Target Account", "Contact Name",
             "Contact Phone", "Contact Email");
 
 
@@ -59,18 +58,23 @@ public class ContactManagerApp extends DriverSetup {
         addContactButton.click();
     }
 
+    public void typeName() {
+        nameField.click();
+        nameField.sendKeys("Username");
+    }
+
     // ============== Elements checkers =================================================
 
-    public void checkIfTitleVisible() {   //// ? checkIfFormsTitlesVisible
-        Assert.assertTrue(accContactTitle.isDisplayed());
+    public void checkIfTitleVisible() {
+        Assert.assertTrue(contactTitle.isDisplayed());
     }
 
     public void checkIfFormsTitlesVisible() {
-        for (WebElement titles : actualTetlesNames) {
+        for (AndroidElement titles : actualTitlesNames) {
             Assert.assertTrue(titles.isDisplayed());
         }
-        for (int i = 0; i < expectedlTetlesNames.size(); i++) {
-            Assert.assertEquals(actualTetlesNames.get(i).getText(), expectedlTetlesNames.get(i));
+        for (int i = 0; i < expectedTitlesNames.size(); i++) {
+            Assert.assertEquals(actualTitlesNames.get(i).getText(), expectedTitlesNames.get(i));
         }
     }
 

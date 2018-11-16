@@ -2,7 +2,6 @@ package hw2;
 
 import nativeapp.IanaLandingPage;
 import org.testng.annotations.Test;
-import setup.Hooks;
 import setup.SelectProperties;
 
 @Test(groups = "web")

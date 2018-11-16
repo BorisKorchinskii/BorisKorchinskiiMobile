@@ -20,7 +20,7 @@ public class DriverSetup {
         //mandatory capabilities
         capabilities.setCapability("deviceName", "emulator-5554");
         capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("app", "D:\\IdeaProjects\\BorisKorchinskii\\src\\main\\resources\\ContactManager.apk");
+        capabilities.setCapability("app", "D:\\IdeaProjects\\BorisKorchinskiiMobile\\src\\main\\resources\\ContactManager.apk");
 
         driver = new AndroidDriver(capabilities);
     }

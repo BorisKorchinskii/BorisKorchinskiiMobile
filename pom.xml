@@ -15,26 +15,27 @@
             <artifactId>java-client</artifactId>
             <version>6.1.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-api</artifactId>
             <version>LATEST</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>LATEST</version>
         </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>LATEST</version>
         </dependency>
 
-    </dependencies>
 
+    </dependencies>
 
     <build>
         <plugins>

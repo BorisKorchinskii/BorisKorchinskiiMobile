@@ -16,8 +16,8 @@ public class IanaLandingPage extends DriverSetup {
     @FindBy(css = "h1")
     private RemoteWebElement pageHeader;
 
-    @FindBy(css = "#home-panels > div")
-    private List<RemoteWebElement> homePanels;
+    @FindBy(css = "#home-panel")
+    private List<WebElement> homePanels;
 
 
 
