@@ -1,8 +1,9 @@
+/*
 package hw1;
 
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import setup.SelectProperties;
+
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,4 +40,5 @@ public class DriverSetup {
     }
 }
 
+*/
 

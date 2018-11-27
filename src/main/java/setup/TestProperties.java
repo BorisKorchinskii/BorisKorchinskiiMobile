@@ -1,27 +1,24 @@
 package setup;
 
+import enums.PropertiesSelect;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class TestProperties {
-    String currentPropertyFile;
-    String propLocation = "./src/test/resources/";
-    Properties currentProps = new Properties();
+class TestProperties {
 
-    protected void setPropertyFile(SelectProperties propertyFile) {
-        currentPropertyFile = propertyFile.getFileName();
-    }
+    private Properties currentProps = new Properties();
 
     Properties getCurrentProps() throws IOException {
-        FileInputStream in = new FileInputStream(propLocation + currentPropertyFile);
+        FileInputStream in = new FileInputStream(String.valueOf(PropertiesSelect.NATIVE));
         currentProps.load(in);
         in.close();
         return currentProps;
     }
 
-    protected String getProp(String propKey) throws IOException {
-        if (!currentProps.containsKey(propKey)) currentProps = getCurrentProps();
+    String getProp(String propKey) throws IOException {
+        if(!currentProps.containsKey(propKey)) currentProps = getCurrentProps();
         return currentProps.getProperty(propKey, null);
     }
 }

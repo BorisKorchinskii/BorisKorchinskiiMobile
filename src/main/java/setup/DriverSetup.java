@@ -1,103 +1,129 @@
 package setup;
 
+import exceptions.UnclearAppTypeException;
+import exceptions.UnknownPatformException;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 public class DriverSetup extends TestProperties {
 
     private static AppiumDriver driverSingle = null;
     private static WebDriverWait waitSingle;
-    private DesiredCapabilities capabilities;
+    protected DesiredCapabilities capabilities;
 
-    // Properties to be read
+    // Properties
 
-    private static String AUT; // (mobile) app under testing
-    protected static String SUT; // site under testing
-    private static String TEST_PLATFORM;
-    private static String DRIVER;
-    private static String DEVICE_NAME;
-
-    // Constructor initializes properties on driver creation and log
-
-/*    protected void DriverSetup() throws IOException {
-        String propertiesPath = "./src/main/resources/";
-        String t_aut = getProp("aut");
-        AUT = t_aut == null ? null : propertiesPath + t_aut;
-        String t_sut = getProp("sut");
-        SUT = t_sut == null ? null : "http://" + t_sut;
-        TEST_PLATFORM = getProp("platform");
-        DRIVER = getProp("driver");
-        DEVICE_NAME = getProp("devicename");
-    }*/
+    protected static String AUT;
+    protected static String SUT;
+    protected static String TEST_PLATFORM;
+    protected static String DRIVER;
+    protected static String DEVICE_NAME;
+    protected static String APP_PACKAGE;
+    protected static String APP_ACTIVITY;
 
     // Initialize driver with appropriate capabilities depending on platform and application
 
-    protected void prepareDriver() throws Exception {
-        capabilities = new DesiredCapabilities();
-        String browserName;
+    protected DriverSetup() throws IOException {
 
-        String propertiesPath = "./src/main/resources/";
-        String t_aut = getProp("aut");
-        AUT = t_aut == null ? null : propertiesPath + t_aut;
+        AUT = getProp("aut");
         String t_sut = getProp("sut");
-        SUT = t_sut == null ? null : "http://" + t_sut;
+        SUT = t_sut == null ? null : "https://" + t_sut;
         TEST_PLATFORM = getProp("platform");
         DRIVER = getProp("driver");
         DEVICE_NAME = getProp("devicename");
+        APP_PACKAGE = getProp("app_package");
+        APP_ACTIVITY = getProp("app_activity");
+    }
+
+    /**
+     * Initialize driver with appropriate capabilities depending on platform and application
+     *
+     * @throws Exception
+     */
+
+    void prepareDriver() throws Exception {
+
+        capabilities = new DesiredCapabilities();
+        String browserName;
 
         switch (TEST_PLATFORM) {
             case "Android":
-                capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
                 browserName = "Chrome";
                 break;
             case "iOS":
                 browserName = "Safari";
                 break;
             default:
-                throw new Exception("Unknown mobile platform");
+                throw new UnknownPatformException();
         }
+
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, TEST_PLATFORM);
 
-        //find the corresponding capabilities for WEB/NATIVE test in the config
-        //If both SUT and AUT are not null - we pick NATIVE test up
+        // Setup testing type: mobile, web, hybrid
 
         if (AUT != null && SUT == null) {
             // Native
             File app = new File(AUT);
-            capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+            switch (TEST_PLATFORM) {
+                case "Android":
+                    capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, APP_PACKAGE);
+                    capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, APP_ACTIVITY);
+                    break;
+                case "iOS":
+                    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+                    break;
+                default:
+                    throw new UnclearAppTypeException();
+            }
         } else if (SUT != null && AUT == null) {
             // Web
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
         } else {
-            throw new Exception("Unclear type of mobile app");
+            throw new UnclearAppTypeException();
         }
 
-        // Driver initialized with new AndroidDriver
+        // Init driver for local Appium server with capabilities set
+
+        // Init driver for local Appium server with capabilities have been set
         if (driverSingle == null) {
-            driverSingle = new AndroidDriver(new URL(DRIVER), capabilities);
+            switch (TEST_PLATFORM) {
+                case "Android":
+                    driverSingle = new AndroidDriver(new URL(DRIVER), capabilities);
+                    break;
+                case "iOS":
+                    driverSingle = new IOSDriver(new URL(DRIVER), capabilities);
+                    break;
+                default:
+                    throw new UnknownPatformException();
+            }
         }
 
         // Timeout handling
+
         if (waitSingle == null) {
             waitSingle = new WebDriverWait(driver(), 10);
         }
+
+        if (driverSingle == null) {
+            driverSingle = new AppiumDriver(new URL(DRIVER), capabilities);
+        }
     }
 
-    // Singleton access
-    protected AppiumDriver driver() throws Exception {
-        if (driverSingle == null) {
-            prepareDriver();
-        }
+    protected AppiumDriver driver() {
         return driverSingle;
     }
 
-    protected WebDriverWait driverWait() throws Exception {
+    protected WebDriverWait driverWait() {
         return waitSingle;
     }
 }

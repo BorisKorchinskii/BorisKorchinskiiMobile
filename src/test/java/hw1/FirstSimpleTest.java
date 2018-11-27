@@ -1,15 +1,17 @@
+/*
 package hw1;
 
 
+import enums.PropertiesSelect;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import setup.SelectProperties;
+
 
 public class FirstSimpleTest extends DriverSetup{
 
-    public FirstSimpleTest(SelectProperties properties) {
+    public FirstSimpleTest(PropertiesSelect properties) {
         super(properties);
     }
 
@@ -42,6 +44,7 @@ public class FirstSimpleTest extends DriverSetup{
     }
 }
 
+*/
 
 
 

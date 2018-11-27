@@ -1,56 +1,62 @@
 package nativeapp;
 
-import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.HasOnScreenKeyboard;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import setup.DriverSetup;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class ContactManagerApp extends DriverSetup {
+
     private final String app_package_name = "com.example.android.contactmanager:id/";
 
-    @AndroidFindBy(id = app_package_name + "addContactButton")
-    private AndroidElement addContactButton;
+    @FindBy(id = app_package_name + "addContactButton")
+    private WebElement  addContactButton;
 
-    @AndroidFindBy(id = "android:id/title")
-    private AndroidElement contactTitle;
+    @FindBy(id = "android:id/title")
+    private WebElement  contactTitle;
 
-    @AndroidFindBy(id = app_package_name + "contactNameEditText")
-    private AndroidElement nameField;
+    @FindBy(id = app_package_name + "contactNameEditText")
+    private WebElement  nameField;
 
-    @AndroidFindBy(id = "Target Account")
-    private AndroidElement targetAccountTitle;
+    @FindBy(id = "Target Account")
+    private WebElement  targetAccountTitle;
 
-    @AndroidFindBy(id = "Contact Name")
-    private AndroidElement contactNameTitle;
+    @FindBy(id = "Contact Name")
+    private WebElement  contactNameTitle;
 
-    @AndroidFindBy(id = "Contact Phone")
-    private AndroidElement contactFormTitle;
+    @FindBy(id = "Contact Phone")
+    private WebElement  contactFormTitle;
 
-    @AndroidFindBy(id = "Contact Email")
-    private AndroidElement contactEmailForm;
+    @FindBy(id = "Contact Email")
+    private WebElement  contactEmailForm;
 
-    @AndroidFindBy(id = app_package_name + "accountSpinner")
-    private AndroidElement targetAccountSpinner;
+    @FindBy(id = app_package_name + "accountSpinner")
+    private WebElement  targetAccountSpinner;
 
-    @AndroidFindBy(id = app_package_name + "contactNameEditText")
-    private AndroidElement contactNameField;
+    @FindBy(id = app_package_name + "contactNameEditText")
+    private WebElement  contactNameField;
 
-    @AndroidFindBy(id = app_package_name + "contactPhoneEditText")
-    private AndroidElement contactFormEditField;
+    @FindBy(id = app_package_name + "contactPhoneEditText")
+    private WebElement  contactFormEditField;
 
-    @AndroidFindBy(id = app_package_name + "contactEmailEditText")
-    private AndroidElement contactEmailField;
+    @FindBy(id = app_package_name + "contactEmailEditText")
+    private WebElement  contactEmailField;
 
 
-    private List<AndroidElement> actualTitlesNames = Arrays.asList(contactNameTitle, targetAccountTitle,
+    private List<WebElement > actualTitlesNames = Arrays.asList(contactNameTitle, targetAccountTitle,
             contactFormTitle, contactEmailForm);
 
     private List<String> expectedTitlesNames = Arrays.asList("Target Account", "Contact Name",
             "Contact Phone", "Contact Email");
 
+    public ContactManagerApp() throws IOException {
+    }
 
     // ============== Actions methods =================================================
 
@@ -63,19 +69,22 @@ public class ContactManagerApp extends DriverSetup {
         nameField.sendKeys("Username");
     }
 
+    public void closeApp() {
+        driver().closeApp();
+    }
+
     // ============== Elements checkers =================================================
+
+    public void checkKeyboard() {
+        driver().getKeyboard();
+    }
+
+    public void checkAddContactButtonVisible() {
+        Assert.assertTrue(addContactButton.isDisplayed());
+    }
 
     public void checkIfTitleVisible() {
         Assert.assertTrue(contactTitle.isDisplayed());
-    }
-
-    public void checkIfFormsTitlesVisible() {
-        for (AndroidElement titles : actualTitlesNames) {
-            Assert.assertTrue(titles.isDisplayed());
-        }
-        for (int i = 0; i < expectedTitlesNames.size(); i++) {
-            Assert.assertEquals(actualTitlesNames.get(i).getText(), expectedTitlesNames.get(i));
-        }
     }
 
     public void checkIfFieldsVisible() {
@@ -83,5 +92,13 @@ public class ContactManagerApp extends DriverSetup {
         Assert.assertTrue(contactNameField.isDisplayed());
         Assert.assertTrue(contactFormEditField.isDisplayed());
         Assert.assertTrue(contactEmailField.isDisplayed());
+    }
+
+    public void checkKeyboardPresence(AppiumDriver driver) {
+        if (driver instanceof HasOnScreenKeyboard) {
+            Assert.assertTrue(((HasOnScreenKeyboard) driver).isKeyboardShown());
+        } else {
+            throw new RuntimeException("Current driver " + driver.getClass().getSimpleName() + " doesn't have a HasOnScreenKeyboard implementation");
+        }
     }
 }
