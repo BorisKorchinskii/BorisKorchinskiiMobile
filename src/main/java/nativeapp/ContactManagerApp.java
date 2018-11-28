@@ -2,96 +2,63 @@ package nativeapp;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.HasOnScreenKeyboard;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.By;
 import org.testng.Assert;
-import setup.DriverSetup;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
-public class ContactManagerApp extends DriverSetup {
+public class ContactManagerApp {
 
     private final String app_package_name = "com.example.android.contactmanager:id/";
+    private AppiumDriver driver;
 
-    @FindBy(id = app_package_name + "addContactButton")
-    private WebElement  addContactButton;
+    String pageTitle = "Contact Manager";
 
-    @FindBy(id = "android:id/title")
-    private WebElement  contactTitle;
+    private By contactTitle = By.id("android:id/title");
 
-    @FindBy(id = app_package_name + "contactNameEditText")
-    private WebElement  nameField;
+    private By addContactButton = By.id(app_package_name + "addContactButton");
 
-    @FindBy(id = "Target Account")
-    private WebElement  targetAccountTitle;
+    private By nameField = By.id(app_package_name + "contactNameEditText");
 
-    @FindBy(id = "Contact Name")
-    private WebElement  contactNameTitle;
+    private By targetAccountSpinner = By.id(app_package_name + "accountSpinner");
 
-    @FindBy(id = "Contact Phone")
-    private WebElement  contactFormTitle;
+    private By contactNameField = By.id(app_package_name + "contactNameEditText");
 
-    @FindBy(id = "Contact Email")
-    private WebElement  contactEmailForm;
+    private By contactFormEditField = By.id(app_package_name + "contactPhoneEditText");
 
-    @FindBy(id = app_package_name + "accountSpinner")
-    private WebElement  targetAccountSpinner;
+    private By contactEmailField = By.id(app_package_name + "contactEmailEditText");
 
-    @FindBy(id = app_package_name + "contactNameEditText")
-    private WebElement  contactNameField;
-
-    @FindBy(id = app_package_name + "contactPhoneEditText")
-    private WebElement  contactFormEditField;
-
-    @FindBy(id = app_package_name + "contactEmailEditText")
-    private WebElement  contactEmailField;
-
-
-    private List<WebElement > actualTitlesNames = Arrays.asList(contactNameTitle, targetAccountTitle,
-            contactFormTitle, contactEmailForm);
-
-    private List<String> expectedTitlesNames = Arrays.asList("Target Account", "Contact Name",
-            "Contact Phone", "Contact Email");
-
-    public ContactManagerApp() throws IOException {
+    public ContactManagerApp(AppiumDriver appiumDriver) {
+        this.driver = appiumDriver;
     }
 
     // ============== Actions methods =================================================
 
     public void hitAddButton() {
-        addContactButton.click();
+        driver.findElement(addContactButton).click();
     }
 
     public void typeName() {
-        nameField.click();
-        nameField.sendKeys("Username");
-    }
-
-    public void closeApp() {
-        driver().closeApp();
+        driver.findElement(nameField).click();
+        driver.findElement(nameField).sendKeys("Username");
     }
 
     // ============== Elements checkers =================================================
 
-    public void checkKeyboard() {
-        driver().getKeyboard();
+    public void checkIfTitleVisible() {
+        assertEquals(driver.findElement(contactTitle).getText(), pageTitle);
     }
 
     public void checkAddContactButtonVisible() {
-        Assert.assertTrue(addContactButton.isDisplayed());
-    }
-
-    public void checkIfTitleVisible() {
-        Assert.assertTrue(contactTitle.isDisplayed());
+        assertTrue(driver.findElement(addContactButton).isDisplayed());
     }
 
     public void checkIfFieldsVisible() {
-        Assert.assertTrue(targetAccountSpinner.isDisplayed());
-        Assert.assertTrue(contactNameField.isDisplayed());
-        Assert.assertTrue(contactFormEditField.isDisplayed());
-        Assert.assertTrue(contactEmailField.isDisplayed());
+        assertTrue(driver.findElement(targetAccountSpinner).isDisplayed());
+        assertTrue(driver.findElement(contactNameField).isDisplayed());
+        assertTrue(driver.findElement(contactFormEditField).isDisplayed());
+        assertTrue(driver.findElement(contactEmailField).isDisplayed());
     }
 
     public void checkKeyboardPresence(AppiumDriver driver) {

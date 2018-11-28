@@ -1,24 +1,27 @@
 package setup;
 
-import enums.PropertiesSelect;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 class TestProperties {
 
-    private Properties currentProps = new Properties();
+    private static Properties currentProps;
 
     Properties getCurrentProps() throws IOException {
-        FileInputStream in = new FileInputStream(String.valueOf(PropertiesSelect.NATIVE));
-        currentProps.load(in);
-        in.close();
-        return currentProps;
+        return (currentProps != null) ? currentProps : readPropertiesFromFile();
     }
 
-    String getProp(String propKey) throws IOException {
-        if(!currentProps.containsKey(propKey)) currentProps = getCurrentProps();
-        return currentProps.getProperty(propKey, null);
+    public String getProp(String propKey) throws IOException {
+        return getCurrentProps().getProperty(propKey, null);
+    }
+
+    private Properties readPropertiesFromFile() throws IOException {
+
+        FileInputStream in = new FileInputStream(System.getProperty("property"));
+        this.currentProps = new Properties();
+        this.currentProps.load(in);
+        in.close();
+        return this.currentProps;
     }
 }

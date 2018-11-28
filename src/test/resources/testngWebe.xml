@@ -1,11 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Mobile test suite" verbose="1" >
-    <test name="Web tests">
 
-        <classes>
-            <class name="hw2.WebTest"/>
-        </classes>
+    <test name="Web Tests">
+        <groups>
+            <run>
+                <include name="web"/>
+            </run>
+        </groups>
 
+        <packages>
+            <package name="hw2.webTests"/>
+        </packages>
     </test>
+
 </suite>
