@@ -1,16 +1,16 @@
-package hw2.nativeTests;
+package homework2.nativeTests;
 
 import nativeapp.ContactManagerApp;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import setup.DriverSetup;
+import setup.Driver;
 
 import java.io.IOException;
 
 
 @Test(groups = "native")
-public class NativeTest extends DriverSetup {
+public class NativeTest extends Driver {
 
     private ContactManagerApp contactManagerAppPage;
 
@@ -21,15 +21,14 @@ public class NativeTest extends DriverSetup {
     @BeforeSuite(description = "Prepare driver to run tests")
     public void setUp() throws Exception {
         prepareDriver();
-        System.out.println("DriverSetup prepared");
-        contactManagerAppPage = new ContactManagerApp(driver());
-
+        System.out.println("Driver prepared");
+        contactManagerAppPage = new ContactManagerApp(driverSingle);
     }
 
     @AfterSuite(description = "Close driver on tests complete")
     public void tearDown() throws Exception {
-        driver().quit();
-        System.out.println("DriverSetup is closed");
+        driverSingle.quit();
+        System.out.println("Driver closed");
     }
 
     @Test(description = "Hit Add Contact, type name and verify UI content")
@@ -39,6 +38,6 @@ public class NativeTest extends DriverSetup {
         contactManagerAppPage.hitAddButton();
         contactManagerAppPage.typeName();
         contactManagerAppPage.checkIfFieldsVisible();
-        contactManagerAppPage.checkKeyboardPresence(driver());
+        contactManagerAppPage.checkKeyboardPresence(driverSingle);
     }
 }

@@ -8,14 +8,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import setup.DriverSetup;
 
 import java.io.IOException;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
-public class IanaLandingPage extends DriverSetup {
+public class IanaLandingPage {
 
     private AppiumDriver driver;
 

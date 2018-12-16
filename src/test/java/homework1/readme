@@ -1,0 +1,13 @@
+2. Suggest improvements for .properties reading. What are the purposes?
+For better manageability need to move properties to specific files based on the test environment needed
+
+3. Add checks of other fields and their titles (Contact Name, Contact phone) in “native” test
+Made in the homework2 in the NativeTest
+
+4. Optional: Add keyboard presence check in “native” test.
+Made in the homework2 in the NativeTest
+
+5. Which checks would you place in the “web” test?
+- Check the header
+- Check the response code
+- Check sections on the site landing page

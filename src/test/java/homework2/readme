@@ -1,0 +1,37 @@
+// For better integration with CI solutions like Jenkins and to reduce extra code (like hooks) for better maintainability,
+// specific sets of the properies for concrete environments have been made. Added support of the surefire-plugin to the pom.xml
+// and added configurations for testNg and environments properties. Sets are easy to run via maven parametrs (Juts add them to
+// the project configuration on Jenkins or run locally in the terminal):
+
+- To run on the local divice web test for android use
+mvn clean test -DsuiteXmlFile=testngWeb.xml -DpropertyFile=web.local.android.properties
+
+- To run on the local divice native test for android use
+mvn clean test -DsuiteXmlFile=testngNative.xml -DpropertyFile=native.local.android.properties
+
+- To run on the remote divice native test for android use
+mvn clean test -DsuiteXmlFile=testngNative.xml -DpropertyFile=native.remote.android.properties
+
+- To run on the remote divice web test for android use
+mvn clean test -DsuiteXmlFile=testngWeb.xml -DpropertyFile=web.remote.android.properties
+
+- To run on the remote divice web test for ios use
+mvn clean test -DsuiteXmlFile=testngWeb.xml -DpropertyFile=web.remote.ios.properties
+
+
+1. Rewrite (complete) Driver using “singleton” pattern. Are there any advantages?
+2. Suggest improvements for .properties reading. What are the purposes?
+- separation of web and native properties to let driver to know what properties should it to load depending on test environment
+- separation of web and native TestNg configuration files
+- adding  <suiteXmlFile> and <propertyFile> to the pom.xml to run specific suite on the CI environment
+
+3. Add checks of other fields and their titles (Contact Name, Contact phone) in “native” test
+- checks methods added in PageObjects class containing Android elements of the Native app
+
+4. Optional: Add keyboard presence check in “native” test.
+- added method typeName() to PageObjects class to fill the "Contact Name" field;
+
+5. Which checks would you place in the “web” test?
+- check if page header logo is visible
+- check if page contains sections
+- check if HTTP request to resource was fulfilled using responce status code

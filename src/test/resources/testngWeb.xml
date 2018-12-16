@@ -10,7 +10,7 @@
         </groups>
 
         <packages>
-            <package name="hw2.webTests"/>
+            <package name="homework2.webTests"/>
         </packages>
     </test>
 

@@ -17,10 +17,10 @@ import java.util.Properties;
 import static io.appium.java_client.remote.MobileCapabilityType.APP;
 import static io.appium.java_client.remote.MobileCapabilityType.BROWSER_NAME;
 
-public class DriverSetup extends TestProperties {
+public class Driver extends TestProperties {
 
-    private static AppiumDriver driverSingle = null;
-    private static WebDriverWait waitSingle;
+    protected static AppiumDriver driverSingle = null;
+    protected static WebDriverWait waitSingle;
     protected DesiredCapabilities capabilities;
 
     // Properties

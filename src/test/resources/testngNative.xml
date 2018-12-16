@@ -10,8 +10,10 @@
         </groups>
 
         <packages>
-            <package name="hw2.nativeTests"/>
+            <package name="homework2.nativeTests"/>
         </packages>
+
+
     </test>
 
 </suite>
